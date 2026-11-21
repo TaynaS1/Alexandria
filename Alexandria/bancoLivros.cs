@@ -8,7 +8,7 @@ namespace Alexandria
 {
     public static class BancoLivros
     {
-        private static string conexao = "Server=127.0.0.1;Port=3307;Database=alexandria;Uid=root;Pwd=taytaytay;";
+        private static string conexao = "Server=127.0.0.1;Port=3306;Database=alexandria;Uid=root;Pwd=SUA_SENHA;";
         public static string Conexao => conexao;
         public static void Inserir(Livros livro)
         {
