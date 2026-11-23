@@ -19,6 +19,10 @@ namespace Alexandria
         {
             flwLivros.AutoScroll = true;
             flwLivros.WrapContents = true;
+
+            // Quando o painel mudar de tamanho, os cards acompanham a largura
+            flwLivros.Resize += (s, ev) => AjustarLarguraCards();
+
             try
             {
                 listaLivros = BancoLivros.Listar();
@@ -34,7 +38,7 @@ namespace Alexandria
             try
             {
                 BancoLivros.Inserir(livro);
-                listaLivros = BancoLivros.Listar();   
+                listaLivros = BancoLivros.Listar();
                 CarregarLivros();
             }
             catch (Exception ex)
@@ -49,56 +53,88 @@ namespace Alexandria
             if (cheias > 5) cheias = 5;
             return new string('★', cheias) + new string('☆', 5 - cheias);
         }
+
+        // Calcula a largura que o card deve ter para ocupar o painel até o final
+        private int CalcularLarguraCard(Padding margem)
+        {
+            int largura = flwLivros.ClientSize.Width - margem.Horizontal - SystemInformation.VerticalScrollBarWidth;
+            return Math.Max(largura, 170); // nunca menor que a largura mínima antiga
+        }
+
+        // Atualiza a largura de todos os cards já criados (usado ao redimensionar a janela)
+        private void AjustarLarguraCards()
+        {
+            flwLivros.SuspendLayout();
+            foreach (Control c in flwLivros.Controls)
+            {
+                if (c is Panel card)
+                {
+                    card.Width = CalcularLarguraCard(card.Margin);
+                }
+            }
+            flwLivros.ResumeLayout();
+        }
+
         private void CarregarLivros(string filtro = "")
         {
+            flwLivros.SuspendLayout();
             flwLivros.Controls.Clear();
             ToolTip dica = new ToolTip();
             foreach (Livros livro in listaLivros)
             {
                 if (!string.IsNullOrWhiteSpace(filtro))
                 {
-                    bool achou = Contem(livro.titulo, filtro)|| Contem(livro.autor, filtro)|| Contem(livro.genero, filtro)||Contem(livro.status, filtro);
+                    bool achou = Contem(livro.titulo, filtro) || Contem(livro.autor, filtro) || Contem(livro.genero, filtro) || Contem(livro.status, filtro);
                     if (!achou) continue;
                 }
 
                 Panel card = new Panel();
-                card.Width = 170;
-                card.Height = 190;
                 card.Margin = new Padding(10);
+                card.Width = CalcularLarguraCard(card.Margin);
+                card.Height = 190;
                 card.BorderStyle = BorderStyle.FixedSingle;
+
+                // largura interna = largura do card menos as bordas/margens internas
+                int larguraInterna = card.Width - 20;
+                AnchorStyles ancora = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
                 Label titulo = new Label();
                 titulo.Text = livro.titulo;
                 titulo.Font = new Font("Segoe UI", 10, FontStyle.Bold);
                 titulo.ForeColor = Color.White;
                 titulo.Location = new Point(10, 10);
-                titulo.Size = new Size(150, 40);
+                titulo.Size = new Size(larguraInterna, 40);
+                titulo.Anchor = ancora;
 
                 Label autor = new Label();
                 autor.Text = livro.autor;
                 autor.ForeColor = Color.White;
                 autor.Location = new Point(10, 50);
-                autor.Size = new Size(150, 20);
+                autor.Size = new Size(larguraInterna, 20);
+                autor.Anchor = ancora;
 
                 Label generoStatus = new Label();
                 generoStatus.Text = livro.genero + " • " + livro.status;
                 generoStatus.ForeColor = Color.White;
                 generoStatus.Location = new Point(10, 75);
-                generoStatus.Size = new Size(150, 20);
+                generoStatus.Size = new Size(larguraInterna, 20);
+                generoStatus.Anchor = ancora;
 
                 Label nota = new Label();
                 nota.Text = GerarEstrelas(livro.nota);
                 nota.Font = new Font("Segoe UI Symbol", 12);
                 nota.ForeColor = Color.Goldenrod;
                 nota.Location = new Point(10, 98);
-                nota.Size = new Size(150, 25);
+                nota.Size = new Size(larguraInterna, 25);
+                nota.Anchor = ancora;
 
                 Label resenha = new Label();
                 resenha.Text = livro.resenha;
                 resenha.ForeColor = Color.FromArgb(201, 184, 224);
                 resenha.AutoEllipsis = true;
                 resenha.Location = new Point(10, 128);
-                resenha.Size = new Size(150, 52);
+                resenha.Size = new Size(larguraInterna, 52);
+                resenha.Anchor = ancora;
 
                 card.Controls.Add(titulo);
                 card.Controls.Add(autor);
@@ -134,12 +170,13 @@ namespace Alexandria
                 vazio.Margin = new Padding(12);
                 flwLivros.Controls.Add(vazio);
             }
+            flwLivros.ResumeLayout();
         }
 
         private static bool Contem(string? texto, string busca)
         {
             return CultureInfo.CurrentCulture.CompareInfo.IndexOf(
-                texto ?? "", busca.Trim(),CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0;
+                texto ?? "", busca.Trim(), CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0;
         }
 
         private void EditarLivro(Livros livro)
@@ -174,7 +211,7 @@ namespace Alexandria
         }
         private void ExcluirLivro(Livros livro)
         {
-            var r = MessageBox.Show("Deseja excluir \"" + livro.titulo + "\"?", "Confirmar",MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            var r = MessageBox.Show("Deseja excluir \"" + livro.titulo + "\"?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (r != DialogResult.Yes) return;
 
             try
@@ -208,35 +245,35 @@ namespace Alexandria
             }
             this.Show();
         }
-        private void label1_Click(object sender, EventArgs e) 
+        private void label1_Click(object sender, EventArgs e)
         {
         }
-        private void label3_Click(object sender, EventArgs e) 
+        private void label3_Click(object sender, EventArgs e)
         {
         }
-        private void pictureBox2_Click(object sender, EventArgs e) 
-        { 
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
         }
-        private void pnlTopo_Paint(object sender, PaintEventArgs e) 
+        private void pnlTopo_Paint(object sender, PaintEventArgs e)
         {
         }
         private void pictureBox3_Click(object sender, EventArgs e)
-        { 
-        }
-        private void panel3_Paint(object sender, PaintEventArgs e) 
         {
         }
-        private void label5_Click(object sender, EventArgs e) 
+        private void panel3_Paint(object sender, PaintEventArgs e)
         {
         }
-        private void pictureBox1_Click(object sender, EventArgs e) 
+        private void label5_Click(object sender, EventArgs e)
         {
         }
-        private void flwLivros_Paint(object sender, PaintEventArgs e) 
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
         }
-        private void panel2_Paint(object sender, PaintEventArgs e) 
-        { 
+        private void flwLivros_Paint(object sender, PaintEventArgs e)
+        {
+        }
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
         }
     }
 }
