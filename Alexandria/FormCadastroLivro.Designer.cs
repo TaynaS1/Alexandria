@@ -289,7 +289,6 @@
             Name = "FormCadastroLivro";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Novo Livro ";
-            Load += FormCadastroLivro_Load;
             pnlLogo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);

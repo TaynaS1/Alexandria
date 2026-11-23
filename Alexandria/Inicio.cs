@@ -15,7 +15,6 @@ namespace Alexandria
         {
             InitializeComponent();
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             flwLivros.AutoScroll = true;
@@ -30,7 +29,6 @@ namespace Alexandria
             }
             CarregarLivros();
         }
-
         public void AdciconarLivro(Livros livro)
         {
             try
@@ -44,7 +42,6 @@ namespace Alexandria
                 MessageBox.Show("Erro ao salvar no banco: " + ex.Message);
             }
         }
-
         private string GerarEstrelas(double nota)
         {
             int cheias = (int)Math.Round(nota, MidpointRounding.AwayFromZero);
@@ -52,20 +49,15 @@ namespace Alexandria
             if (cheias > 5) cheias = 5;
             return new string('★', cheias) + new string('☆', 5 - cheias);
         }
-
         private void CarregarLivros(string filtro = "")
         {
             flwLivros.Controls.Clear();
             ToolTip dica = new ToolTip();
-
             foreach (Livros livro in listaLivros)
             {
                 if (!string.IsNullOrWhiteSpace(filtro))
                 {
-                    bool achou = Contem(livro.titulo, filtro) ||
-                                 Contem(livro.autor, filtro) ||
-                                 Contem(livro.genero, filtro) ||
-                                 Contem(livro.status, filtro);
+                    bool achou = Contem(livro.titulo, filtro)|| Contem(livro.autor, filtro)|| Contem(livro.genero, filtro)||Contem(livro.status, filtro);
                     if (!achou) continue;
                 }
 
@@ -122,21 +114,17 @@ namespace Alexandria
                 var menu = new ContextMenuStrip();
                 menu.Items.Add("Editar", null, (s, e) => EditarLivro(livro));
                 menu.Items.Add("Excluir", null, (s, e) => ExcluirLivro(livro));
-
                 card.Cursor = Cursors.Hand;
                 card.ContextMenuStrip = menu;
                 card.Click += (s, e) => EditarLivro(livro);
-
                 foreach (Control filho in card.Controls)
                 {
                     filho.Cursor = Cursors.Hand;
                     filho.ContextMenuStrip = menu;
                     filho.Click += (s, e) => EditarLivro(livro);
                 }
-
                 flwLivros.Controls.Add(card);
             }
-
             if (flwLivros.Controls.Count == 0 && !string.IsNullOrWhiteSpace(filtro))
             {
                 Label vazio = new Label();
@@ -151,8 +139,7 @@ namespace Alexandria
         private static bool Contem(string? texto, string busca)
         {
             return CultureInfo.CurrentCulture.CompareInfo.IndexOf(
-                texto ?? "", busca.Trim(),
-                CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0;
+                texto ?? "", busca.Trim(),CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0;
         }
 
         private void EditarLivro(Livros livro)
@@ -162,7 +149,6 @@ namespace Alexandria
                 this.Hide();
                 f.ShowDialog();
                 this.Show();
-
                 try
                 {
                     if (f.Excluir)
@@ -186,11 +172,9 @@ namespace Alexandria
                 }
             }
         }
-
         private void ExcluirLivro(Livros livro)
         {
-            var r = MessageBox.Show("Deseja excluir \"" + livro.titulo + "\"?", "Confirmar",
-                                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            var r = MessageBox.Show("Deseja excluir \"" + livro.titulo + "\"?", "Confirmar",MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (r != DialogResult.Yes) return;
 
             try
@@ -224,15 +208,35 @@ namespace Alexandria
             }
             this.Show();
         }
-        private void label1_Click(object sender, EventArgs e) { }
-        private void label3_Click(object sender, EventArgs e) { }
-        private void pictureBox2_Click(object sender, EventArgs e) { }
-        private void pnlTopo_Paint(object sender, PaintEventArgs e) { }
-        private void pictureBox3_Click(object sender, EventArgs e) { }
-        private void panel3_Paint(object sender, PaintEventArgs e) { }
-        private void label5_Click(object sender, EventArgs e) { }
-        private void pictureBox1_Click(object sender, EventArgs e) { }
-        private void flwLivros_Paint(object sender, PaintEventArgs e) { }
-        private void panel2_Paint(object sender, PaintEventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) 
+        {
+        }
+        private void label3_Click(object sender, EventArgs e) 
+        {
+        }
+        private void pictureBox2_Click(object sender, EventArgs e) 
+        { 
+        }
+        private void pnlTopo_Paint(object sender, PaintEventArgs e) 
+        {
+        }
+        private void pictureBox3_Click(object sender, EventArgs e)
+        { 
+        }
+        private void panel3_Paint(object sender, PaintEventArgs e) 
+        {
+        }
+        private void label5_Click(object sender, EventArgs e) 
+        {
+        }
+        private void pictureBox1_Click(object sender, EventArgs e) 
+        {
+        }
+        private void flwLivros_Paint(object sender, PaintEventArgs e) 
+        {
+        }
+        private void panel2_Paint(object sender, PaintEventArgs e) 
+        { 
+        }
     }
 }
