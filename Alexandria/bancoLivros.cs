@@ -13,7 +13,7 @@ namespace Alexandria
     public static class BancoLivros
     {
         // banco,onde e como
-        private static string conexao = "Server=localhost;Port=3306;Database=Alexandria;Uid=root;Pwd=taytaytay";
+        private static string conexao = "Server=localhost;Port=3306;Database=Alexandria;Uid=root;Pwd=SUASENHA";
         public static string Conexao => conexao;
         public static void Inserir(Livros livro)
         {
