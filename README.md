@@ -108,6 +108,49 @@ private static string conexao =
 * 🏷️ **Gêneros dinâmicos** - Escolha um gênero existente ou digite um novo; ele é salvo para os próximos cadastros
 * ⭐ **Nota e resenha só para livros lidos** - Esses campos são liberados apenas quando o status é *Lido*, e a nota deve estar entre 0 e 5
 * 💬 **Resenha em dica** - Passe o mouse sobre o cartão para ler a resenha completa
+  ## 📸 Capturas de Tela
+
+### Tela de login
+Ao abrir o sistema, o usuário informa o nome e a senha para acessar a biblioteca.
+
+<img width="429" height="361" alt="tela-login" src="https://github.com/user-attachments/assets/869b0e59-4d54-468a-85c2-9a7d30cb5580" />
+
+
+### Login com acesso
+Exemplo de login preenchido com usuário(Tay) e senha(12).
+
+<img width="410" height="356" alt="login-acesso" src="https://github.com/user-attachments/assets/341a8d4f-bdd8-439e-a192-5cef6f9c6bb4" />
+
+
+### Sua Estante (tela principal)
+Tela principal, onde cada livro aparece como um cartão com título, autor, gênero, status da leitura, nota em estrelas e resenha.
+
+<img width="992" height="647" alt="tela-lista png" src="https://github.com/user-attachments/assets/712640bd-0e62-4959-8db7-ff6e36ecf2ab" />
+
+
+### Cadastro de livro
+Formulário para cadastrar um novo livro com título, autor, gênero, status de leitura, avaliação e resenha.
+
+<img width="617" height="480" alt="tela-cadastro-livro png" src="https://github.com/user-attachments/assets/00755ed7-cfb2-4ca1-a03a-ddad1c685385" />
+
+
+### Exemplos de cadastro
+Formulário preenchido com livros de exemplo.
+
+<img width="623" height="491" alt="ex-semBarramento png" src="https://github.com/user-attachments/assets/be8e4880-fa3d-47b5-8c45-572a5e1de9e1" />
+<img width="614" height="473" alt="ex-barramento png" src="https://github.com/user-attachments/assets/31700145-e540-4039-b3fa-3f99ff07c136" />
+
+
+### Lista atualizada
+Depois de salvar, os livros cadastrados aparecem automaticamente na estante.
+
+<img width="998" height="615" alt="Lista-atualizada png" src="https://github.com/user-attachments/assets/1eb62f73-f700-4b0b-8ab2-f7295f8ce6d8" />
+
+
+### Pesquisa de livros
+Campo de busca no topo para encontrar livros rapidamente.
+
+![Pesquisa](imagens/pesquisa.png)
 
 ## 📁 Estrutura do Projeto
 
