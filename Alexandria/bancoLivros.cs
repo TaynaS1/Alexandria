@@ -8,11 +8,12 @@ namespace Alexandria
     {
         public int Id;
         public string Nome = "";
-        public bool PermiteNota;
+        public bool PermiteNota; //ja foi lido?
     }
     public static class BancoLivros
     {
-        private static string conexao = "Server=127.0.0.1;Port=3307;Database=alexandria;Uid=root;Pwd=taytaytay;";
+        // banco,onde e como
+        private static string conexao = "Server=localhost;Port=3306;Database=Alexandria;Uid=root;Pwd=taytaytay";
         public static string Conexao => conexao;
         public static void Inserir(Livros livro)
         {
@@ -20,11 +21,11 @@ namespace Alexandria
             {
                 conn.Open();
                 string sql =
-                    "INSERT INTO livros (titulo, autor, genero_id, status_id, nota, resenha) " +
+                    "INSERT INTO livros (titulo, autor, genero_id, status_id, nota, resenha) " + 
                     "VALUES (@titulo, @autor, " +
                     "(SELECT id FROM generos WHERE nome = @genero LIMIT 1), " +
                     "(SELECT id FROM status_leitura WHERE nome = @status LIMIT 1), " +
-                    "@nota, @resenha)";
+                    "@nota, @resenha)";//livro novo
                 using (MySqlCommand cmd = new MySqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@titulo", livro.titulo);
@@ -37,7 +38,7 @@ namespace Alexandria
                 }
             }
         }
-        public static List<Livros> Listar()
+        public static List<Livros> Listar()//livros cadrastrado
         {
             List<Livros> lista = new List<Livros>();
             using (MySqlConnection conn = new MySqlConnection(conexao))
@@ -69,7 +70,7 @@ namespace Alexandria
             }
             return lista;
         }
-        public static int Excluir(int id)
+        public static int Excluir(int id)//apagar
         {
             using (MySqlConnection conn = new MySqlConnection(conexao))
             {
@@ -82,7 +83,7 @@ namespace Alexandria
                 }
             }
         }
-        public static void Atualizar(Livros l)
+        public static void Atualizar(Livros l)//editar
         {
             using (MySqlConnection conn = new MySqlConnection(conexao))
             {
@@ -106,7 +107,7 @@ namespace Alexandria
                 }
             }
         }
-        public static List<string> ListarGeneros()
+        public static List<string> ListarGeneros()// generos mysql
         {
             List<string> lista = new List<string>();
             using (MySqlConnection conn = new MySqlConnection(conexao))
@@ -125,7 +126,7 @@ namespace Alexandria
 
             return lista;
         }
-        public static void AdicionarGenero(string nome)
+        public static void AdicionarGenero(string nome)//genero usuario
         {
             using (MySqlConnection conn = new MySqlConnection(conexao))
             {
@@ -138,7 +139,7 @@ namespace Alexandria
                 }
             }
         }
-        public static List<StatusLeitura> ListarStatus()
+        public static List<StatusLeitura> ListarStatus()//status listado
         {
             List<StatusLeitura> lista = new List<StatusLeitura>();
             using (MySqlConnection conn = new MySqlConnection(conexao))

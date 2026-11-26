@@ -7,12 +7,18 @@ namespace Alexandria
 {
     internal static class Program
     {
-        [STAThread]
-        static void Main()
+    [STAThread]
+    static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Inicio());
+          Application.EnableVisualStyles();
+          Application.SetCompatibleTextRenderingDefault(false);
+          using (logarUsuario login = new logarUsuario())
+          {
+            if (login.ShowDialog() == DialogResult.OK)
+             {
+               Application.Run(new Inicio());
+             }
+            }
         }
     }
 }

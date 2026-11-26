@@ -11,16 +11,15 @@ namespace Alexandria
         private List<Livros> listaLivros = new List<Livros>();
         private string _filtroAtual = "";
 
-        public Inicio()
+        public Inicio()//prepara a tela
         {
             InitializeComponent();
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)//tela pronta
         {
             flwLivros.AutoScroll = true;
             flwLivros.WrapContents = true;
 
-            // Quando o painel mudar de tamanho, os cards acompanham a largura
             flwLivros.Resize += (s, ev) => AjustarLarguraCards();
 
             try
@@ -33,7 +32,7 @@ namespace Alexandria
             }
             CarregarLivros();
         }
-        public void AdciconarLivro(Livros livro)
+        public void AdciconarLivro(Livros livro)//livro adicionado
         {
             try
             {
@@ -48,21 +47,19 @@ namespace Alexandria
         }
         private string GerarEstrelas(double nota)
         {
-            int cheias = (int)Math.Round(nota, MidpointRounding.AwayFromZero);
+            int cheias = (int)Math.Round(nota, MidpointRounding.AwayFromZero);//areedonda
             if (cheias < 0) cheias = 0;
             if (cheias > 5) cheias = 5;
-            return new string('★', cheias) + new string('☆', 5 - cheias);
+            return new string('★', cheias) + new string('☆', 5 - cheias);//faltam
         }
 
-        // Calcula a largura que o card deve ter para ocupar o painel até o final
-        private int CalcularLarguraCard(Padding margem)
+        private int CalcularLarguraCard(Padding margem)//calcula
         {
             int largura = flwLivros.ClientSize.Width - margem.Horizontal - SystemInformation.VerticalScrollBarWidth;
-            return Math.Max(largura, 170); // nunca menor que a largura mínima antiga
+            return Math.Max(largura, 170);
         }
 
-        // Atualiza a largura de todos os cards já criados (usado ao redimensionar a janela)
-        private void AjustarLarguraCards()
+        private void AjustarLarguraCards()//aplica
         {
             flwLivros.SuspendLayout();
             foreach (Control c in flwLivros.Controls)
@@ -80,11 +77,11 @@ namespace Alexandria
             flwLivros.SuspendLayout();
             flwLivros.Controls.Clear();
             ToolTip dica = new ToolTip();
-            foreach (Livros livro in listaLivros)
+            foreach (Livros livro in listaLivros)//percorre os livros
             {
                 if (!string.IsNullOrWhiteSpace(filtro))
                 {
-                    bool achou = Contem(livro.titulo, filtro) || Contem(livro.autor, filtro) || Contem(livro.genero, filtro) || Contem(livro.status, filtro);
+                    bool achou = livro.titulo.StartsWith(filtro.Trim(), StringComparison.OrdinalIgnoreCase);
                     if (!achou) continue;
                 }
 
@@ -94,7 +91,6 @@ namespace Alexandria
                 card.Height = 190;
                 card.BorderStyle = BorderStyle.FixedSingle;
 
-                // largura interna = largura do card menos as bordas/margens internas
                 int larguraInterna = card.Width - 20;
                 AnchorStyles ancora = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
@@ -245,6 +241,14 @@ namespace Alexandria
             }
             this.Show();
         }
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            logarUsuario telaLogin = new logarUsuario();
+            telaLogin.FormClosed += (s, args) => this.Show();
+            telaLogin.Show();
+            this.Hide();
+        }
+
         private void label1_Click(object sender, EventArgs e)
         {
         }
@@ -274,6 +278,14 @@ namespace Alexandria
         }
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
+        }
+
+        private void btnLogin_Click_1(object sender, EventArgs e)
+        {
+            logarUsuario telaLogin = new logarUsuario();
+            telaLogin.FormClosed += (s, args) => this.Show();
+            telaLogin.Show();
+            this.Hide();
         }
     }
 }

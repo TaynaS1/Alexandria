@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.Cmp;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
@@ -25,7 +26,7 @@ namespace Alexandria
             AtualizarCamposNota();
         }
 
-        public FormCadastroLivro(Livros livroExistente) : this()
+        public FormCadastroLivro(Livros livroExistente) : this()//livro no inicio
         {
             _idEdicao = livroExistente.id;
             txtTitulo.Text = livroExistente.titulo;
@@ -47,7 +48,7 @@ namespace Alexandria
             btnExcluir.Click += btnExcluir_Click;
             btnCancelar.Parent.Controls.Add(btnExcluir);
         }
-        private void CarregarListas()
+        private void CarregarListas()//cards
         {
             try
             {
@@ -67,12 +68,12 @@ namespace Alexandria
             }
         }
 
-        private bool StatusPermiteNota()
+        private bool StatusPermiteNota()//leu??
         {
             return _permiteNota.TryGetValue(cboStatus.Text.Trim(), out bool permite) && permite;
         }
 
-        private void AtualizarCamposNota()
+        private void AtualizarCamposNota()//se leu!!
         {
             bool permite = StatusPermiteNota();
             txtNota.Enabled = permite;
@@ -144,10 +145,36 @@ namespace Alexandria
             }
             NovoLivro = new Livros
             {
-                id = _idEdicao, titulo = txtTitulo.Text.Trim(),autor = textAutor.Text.Trim(),genero = genero,status = cboStatus.Text.Trim(),nota = nota,resenha = resenha
+                id = _idEdicao,
+                titulo = txtTitulo.Text.Trim(),
+                autor = textAutor.Text.Trim(),
+                genero = genero,
+                status = cboStatus.Text.Trim(),
+                nota = nota,
+                resenha = resenha
             };
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
